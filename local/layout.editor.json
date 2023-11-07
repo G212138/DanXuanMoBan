@@ -19,7 +19,7 @@
             "children": [
               {
                 "width": 344,
-                "height": 628.296875,
+                "height": 626.640625,
                 "type": "panel",
                 "active": 0,
                 "children": [
@@ -28,7 +28,7 @@
               },
               {
                 "width": 344,
-                "height": 290.203125,
+                "height": 291.84375,
                 "type": "panel",
                 "active": 0,
                 "children": [
@@ -38,13 +38,13 @@
             ]
           },
           {
-            "width": 1104,
+            "width": 1109,
             "height": 921.5,
             "type": "dock-v",
             "children": [
               {
-                "width": 1104,
-                "height": 628.296875,
+                "width": 1109,
+                "height": 626.640625,
                 "type": "panel",
                 "active": 0,
                 "children": [
@@ -52,8 +52,8 @@
                 ]
               },
               {
-                "width": 1104,
-                "height": 290.203125,
+                "width": 1109,
+                "height": 291.84375,
                 "type": "panel",
                 "active": 0,
                 "children": [
@@ -66,7 +66,7 @@
             ]
           },
           {
-            "width": 450,
+            "width": 445,
             "height": 921.5,
             "type": "panel",
             "active": 0,
@@ -88,7 +88,34 @@
         "inspector",
         "cocos-services"
       ]
-    }
+    },
+    "window-1699349299522": {
+      "main": false,
+      "url": "unpack://static/window.html",
+      "windowType": "dockable",
+      "x": 552,
+      "y": 40,
+      "width": 816,
+      "height": 939,
+      "layout": {
+        "type": "dock-v",
+        "children": [
+          {
+            "width": 800,
+            "height": 900,
+            "type": "panel",
+            "active": 0,
+            "children": [
+              "packaging_tools"
+            ]
+          }
+        ]
+      },
+      "panels": [
+        "packaging_tools"
+      ]
+    },
+    "worker": {}
   },
   "panels": {
     "packaging_tools": {

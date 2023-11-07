@@ -54,7 +54,7 @@ var TeacherPanel = /** @class */ (function (_super) {
         if (this._btn_save) {
             this._btn_save.active = !isEdit;
         }
-        this._btn_save.active = true;
+        // this._btn_save.active = true;
     };
     /**
      * 设置界面（这里已经拿到了网络请求数据）
@@ -113,6 +113,7 @@ var TeacherPanel = /** @class */ (function (_super) {
     };
     // 预览课件按钮
     TeacherPanel.prototype.onBtnViewClicked = function () {
+        EditorManager_1.EditorManager.editorData.levelCount = EditorManager_1.EditorManager.editorData.GameData.length;
         if (-1 === EditorManager_1.EditorManager.getCoursewareLevel() ||
             null === EditorManager_1.EditorManager.getCoursewareLevel() ||
             void 0 === EditorManager_1.EditorManager.getCoursewareLevel()) {

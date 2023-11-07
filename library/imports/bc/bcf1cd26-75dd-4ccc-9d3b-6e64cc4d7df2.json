@@ -1,8 +1,8 @@
 {
   "__type__": "cc.AudioClip",
-  "_name": "照相机咔嚓音效",
+  "_name": "快节奏成功音效",
   "_objFlags": 0,
   "_native": ".mp3",
-  "duration": 0.41795,
+  "duration": 4.104,
   "loadMode": 0
 }

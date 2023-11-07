@@ -37,7 +37,7 @@ export default class TeacherPanel extends BaseTeacherPanel {
         if (this._btn_save) {
             this._btn_save.active = !isEdit;
         }
-        this._btn_save.active = true;
+        // this._btn_save.active = true;
     }
 
     /**
@@ -102,6 +102,7 @@ export default class TeacherPanel extends BaseTeacherPanel {
     }
     // 预览课件按钮
     public onBtnViewClicked() {
+        EditorManager.editorData.levelCount = EditorManager.editorData.GameData.length;
         if (
             -1 === EditorManager.getCoursewareLevel() ||
             null === EditorManager.getCoursewareLevel() ||

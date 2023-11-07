@@ -79,6 +79,9 @@ export default class GamePanel extends BaseGamePanel {
      */
     protected onReplay() {
         super.onReplay();
+        SyncDataManager.getSyncData().customSyncData.curLevel = 0;
+        SyncDataManager.getSyncData().customSyncData.isStart = false;
+        SyncDataManager.getSyncData().customSyncData.tureLevel = [];
         ListenerManager.dispatch(EventType.GAME_REPLAY);
     }
 

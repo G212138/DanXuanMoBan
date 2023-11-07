@@ -28,7 +28,7 @@ export class GameData {
     public questionText :string = ""; //题干文本，可编辑文字，最多30个字，如果为空就隐藏题干区域；
     public questionPic :string = ""; //中央题版配图，图片文件的分辨率固定；
     public opinion: number = 0; //选项数量，数量为2~5个
-    public answer: number[] = []; //正确答案1~5，只能为单数，分别从左往右对应；
+    public answer: number = 1; //正确答案1~5，只能为单数，分别从左往右对应；
     public opinionText1: string = ""; //选项1的文本，最多10个字
     public opinionPic1: string = ""; //选项1的图片，总选项的数量会影响分辨率的尺寸，当同时配置了文本和图片时，只显示图片
     public opinionText2: string = ""; //选项2的文本，最多10个字

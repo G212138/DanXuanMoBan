@@ -24,6 +24,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var ListenerManager_1 = require("../../../../frame/scripts/Manager/ListenerManager");
+var SyncDataManager_1 = require("../../../../frame/scripts/Manager/SyncDataManager");
 var BaseGamePanel_1 = require("../../../../frame/scripts/UI/Panel/BaseGamePanel");
 var EventType_1 = require("../../Data/EventType");
 var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
@@ -96,6 +97,9 @@ var GamePanel = /** @class */ (function (_super) {
      */
     GamePanel.prototype.onReplay = function () {
         _super.prototype.onReplay.call(this);
+        SyncDataManager_1.SyncDataManager.getSyncData().customSyncData.curLevel = 0;
+        SyncDataManager_1.SyncDataManager.getSyncData().customSyncData.isStart = false;
+        SyncDataManager_1.SyncDataManager.getSyncData().customSyncData.tureLevel = [];
         ListenerManager_1.ListenerManager.dispatch(EventType_1.EventType.GAME_REPLAY);
     };
     GamePanel.prototype.update = function (dt) {
