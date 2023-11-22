@@ -54,6 +54,7 @@ var GameUI = /** @class */ (function (_super) {
         _this.question_node_posY = 90;
         _this.option_node_start_posY = -1000;
         _this.option_node_posY = -400;
+        _this.eableClick = true;
         return _this;
     }
     GameUI.prototype.onLoad = function () {
@@ -101,6 +102,7 @@ var GameUI = /** @class */ (function (_super) {
         });
     };
     GameUI.prototype.resetUI = function () {
+        this.eableClick = true;
         this.gameData = EditorManager_1.EditorManager.editorData.GameData[SyncDataManager_1.SyncDataManager.getSyncData().customSyncData.curLevel];
         this.initTitle();
         this.initLevelProgress();
@@ -120,7 +122,6 @@ var GameUI = /** @class */ (function (_super) {
         }
     };
     GameUI.prototype.nextLevel = function () {
-        SoundManager_1.SoundManager.stopAllEffect();
         this.gameData = EditorManager_1.EditorManager.editorData.GameData[SyncDataManager_1.SyncDataManager.getSyncData().customSyncData.curLevel];
         this.initTitle();
         this.initLevelProgress();
@@ -129,18 +130,18 @@ var GameUI = /** @class */ (function (_super) {
         this.handleShowQuestion();
     };
     GameUI.prototype.initTitle = function () {
-        this.title_text.string = this.gameData.questionText;
-        if (this.gameData.questionText.length > 36) {
-            this.title_text.node.width = this.title_text.fontSize * 36;
-            this.title_text.overflow = cc.Label.Overflow.RESIZE_HEIGHT;
-        }
-        else {
-            this.title_text.overflow = cc.Label.Overflow.NONE;
-        }
-        this.title_text.node.active = false;
-        this.title_text.string = this.gameData.questionText;
-        this.title_text.node.active = true;
-        this.title_text.node.parent.getComponent(cc.Layout).updateLayout();
+        this.title_text.node.parent.active = false;
+        // this.title_text.string = this.gameData.questionText;
+        // if (this.gameData.questionText.length > 36) {
+        //     this.title_text.node.width = this.title_text.fontSize * 36;
+        //     this.title_text.overflow = cc.Label.Overflow.RESIZE_HEIGHT;
+        // } else {
+        //     this.title_text.overflow = cc.Label.Overflow.NONE;
+        // }
+        // this.title_text.node.active = false;
+        // this.title_text.string = this.gameData.questionText;
+        // this.title_text.node.active = true;
+        // this.title_text.node.parent.getComponent(cc.Layout).updateLayout();
     };
     GameUI.prototype.initLevelProgress = function () {
         this.lb_curLevel.node.parent.parent.active = EditorManager_1.EditorManager.editorData.GameData.length > 1;
@@ -184,8 +185,12 @@ var GameUI = /** @class */ (function (_super) {
     };
     GameUI.prototype.handleClickOption = function (data) {
         var _this = this;
+        if (!this.eableClick)
+            return;
+        this.eableClick = false;
         ListenerManager_1.ListenerManager.dispatch(EventType_1.EventType.SUBMIT, data);
         cc.tween(this.question_node.getChildByName("qie")).to(0.5, { x: 300 }).call(function () {
+            _this.eableClick = true;
             if (data) {
                 _this.handleTrueAni();
             }
@@ -221,7 +226,7 @@ var GameUI = /** @class */ (function (_super) {
             SyncDataManager_1.SyncDataManager.getSyncData().customSyncData.aniLoop = false;
             SoundManager_1.SoundManager.stopSoundByName(SoundConfig_1.SoundConfig.soudlist["滑行"]);
             this.scheduleOnce(function () {
-                SoundManager_1.SoundManager.playEffect(SoundConfig_1.SoundConfig.soudlist["滑行"], true, true, true);
+                SoundManager_1.SoundManager.playEffect(SoundConfig_1.SoundConfig.soudlist["滑行"], true, true, false);
             }, 2.5);
             this.scheduleOnce(function () {
                 SoundManager_1.SoundManager.stopSoundByName(SoundConfig_1.SoundConfig.soudlist["滑行"]);
@@ -239,7 +244,6 @@ var GameUI = /** @class */ (function (_super) {
         }
     };
     GameUI.prototype.T2M_changeAni = function (data) {
-        SoundManager_1.SoundManager.stopAllEffect();
         Tools_1.Tools.playSpine(this.bg_ani, data.name, data.loop);
     };
     GameUI.prototype.handleGameOver = function () {
@@ -248,17 +252,18 @@ var GameUI = /** @class */ (function (_super) {
             SyncDataManager_1.SyncDataManager.getSyncData().customSyncData.aniLoop = false;
             SoundManager_1.SoundManager.stopSoundByName(SoundConfig_1.SoundConfig.soudlist["滑行"]);
             this.scheduleOnce(function () {
-                SoundManager_1.SoundManager.playEffect(SoundConfig_1.SoundConfig.soudlist["滑行"], true, true, true);
+                SoundManager_1.SoundManager.playEffect(SoundConfig_1.SoundConfig.soudlist["滑行"], true, true);
             }, 2.5);
             this.scheduleOnce(function () {
                 SoundManager_1.SoundManager.stopSoundByName(SoundConfig_1.SoundConfig.soudlist["滑行"]);
             }, 5);
             Tools_1.Tools.playSpine(this.bg_ani, "BG3_win", false, function () {
+                SoundManager_1.SoundManager.stopSoundByName(SoundConfig_1.SoundConfig.soudlist["滑行"]);
                 if (NetWork_1.NetWork.isMaster || !NetWork_1.NetWork.isSync) {
                     T2M_1.T2M.dispatch(EventType_1.EventType.CHANGE_ANI, { name: "BG3_win2", loop: true });
                     // T2M.dispatch(EventType.SYNC_GAME_OVER, null);
                 }
-                SoundManager_1.SoundManager.playEffect(SoundConfig_1.SoundConfig.soudlist["快节奏成功音效"], false, false, false, function () {
+                SoundManager_1.SoundManager.playEffect(SoundConfig_1.SoundConfig.soudlist["快节奏成功音效"], false, true, false, function () {
                     if (NetWork_1.NetWork.isMaster || !NetWork_1.NetWork.isSync) {
                         // T2M.dispatch(EventType.CHANGE_ANI, { name: "BG3_win2", loop: true });
                         T2M_1.T2M.dispatch(EventType_1.EventType.SYNC_GAME_OVER, null);
@@ -278,7 +283,7 @@ var GameUI = /** @class */ (function (_super) {
                     T2M_1.T2M.dispatch(EventType_1.EventType.CHANGE_ANI, { name: "BG3&4_lost2", loop: true });
                     // T2M.dispatch(EventType.SYNC_GAME_OVER, null);
                 }
-                SoundManager_1.SoundManager.playEffect(SoundConfig_1.SoundConfig.soudlist["长一些的失败音效"], false, false, false, function () {
+                SoundManager_1.SoundManager.playEffect(SoundConfig_1.SoundConfig.soudlist["长一些的失败音效"], false, true, false, function () {
                     if (NetWork_1.NetWork.isMaster || !NetWork_1.NetWork.isSync) {
                         // T2M.dispatch(EventType.CHANGE_ANI, { name: "BG3_win2", loop: true });
                         T2M_1.T2M.dispatch(EventType_1.EventType.SYNC_GAME_OVER, null);
