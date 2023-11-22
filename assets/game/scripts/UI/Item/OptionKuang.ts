@@ -12,11 +12,15 @@ export default class OptionKuang extends cc.Component {
     @property(cc.Label)
     private text: cc.Label = null;
     @property(cc.Sprite)
-    private img: cc.Sprite = null;
+    private img_sp: cc.Sprite = null;
     @property(cc.Node)
     private img_true: cc.Node = null;
     @property(cc.Node)
     private img_wrong: cc.Node = null;
+    @property(cc.Sprite)
+    private icon: cc.Sprite = null;
+    @property(cc.SpriteFrame)
+    private icon_img: cc.SpriteFrame[] = [];
 
     private isTrueAnswer: boolean = false;
     private index: number = 0;
@@ -25,15 +29,21 @@ export default class OptionKuang extends cc.Component {
         this.index = index;
         this.text.string = text;
         if (img == "") {
-            this.img.node.active = false;
+            this.text.node.active = true;
+            this.img_sp.node.active = false;
         } else {
             this.text.node.active = false;
-            this.img.node.active = true;
+            this.img_sp.node.active = true;
+            cc.resources.load("images/" + img,cc.SpriteFrame,function(err, img){
+                this.img_sp.spriteFrame = img;             
+            }.bind(this));
         }
         this.isTrueAnswer = isTrueAnswer;
+        this.icon.spriteFrame = this.icon_img[this,index];
     }
 
     public onClickOption() {
+        SoundManager.playEffect(SoundConfig.soudlist["点击音效"], false, false, false);
         UIHelp.showMask();
         ListenerManager.dispatch(EventType.CLICK_OPTION, this.isTrueAnswer);
         let soundName = this.isTrueAnswer ? "正确音效" : "错误音效";

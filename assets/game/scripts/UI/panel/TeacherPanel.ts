@@ -51,7 +51,7 @@ export default class TeacherPanel extends BaseTeacherPanel {
 
         //先默认设置几题题目
         EditorManager.editorData.GameData = [];
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 6; i++) {
             let gameData = new GameData();
             let defaultLevelData = ConstValue.defaultLevelData[i];
             gameData.questionText = defaultLevelData.questionText;

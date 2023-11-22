@@ -48,7 +48,7 @@ var GamePanel = /** @class */ (function (_super) {
             this.answerRight(true);
         }
         else {
-            this.answerWrong();
+            this.answerWrong(true);
         }
     };
     /**

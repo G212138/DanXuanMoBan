@@ -66,7 +66,7 @@ var TeacherPanel = /** @class */ (function (_super) {
         this.toggle_titleAudio.toggleItems[EditorManager_1.EditorManager.editorData.isPlayTitle ? 0 : 1].isChecked = true;
         //先默认设置几题题目
         EditorManager_1.EditorManager.editorData.GameData = [];
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < 6; i++) {
             var gameData = new EditorManager_1.GameData();
             var defaultLevelData = ConstValue_1.ConstValue.defaultLevelData[i];
             gameData.questionText = defaultLevelData.questionText;

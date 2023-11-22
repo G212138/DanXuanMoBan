@@ -110,6 +110,7 @@ export default class GameUI extends cc.Component {
     }
 
     private nextLevel() {
+        SoundManager.stopAllEffect();
         this.gameData = EditorManager.editorData.GameData[SyncDataManager.getSyncData().customSyncData.curLevel];
         this.initTitle();
         this.initLevelProgress();
@@ -139,7 +140,27 @@ export default class GameUI extends cc.Component {
     }
 
     private initQuestion() {
-        this.question_text.string = this.gameData.questionText;
+        if (this.gameData.questionPic == "") {
+            this.question_text.node.active = true;
+            this.question_img.node.active = false;
+            this.question_text.string = this.gameData.questionText;
+        } else {
+            this.question_text.node.active = false;
+            this.question_img.node.active = true;
+            cc.resources.load("images/" + this.gameData.questionPic, cc.SpriteFrame, function (err, img) {
+                this.question_img.spriteFrame = img;
+            }.bind(this));
+            //this.question_img根据955*555的图片大小自适应缩放
+            // let scale = 1;
+            // if (this.question_img.width > 955) {
+            //     scale = 955 / this.question_img.width;
+            // }
+            // if (this.question_img.height * scale > 555) {
+            //     scale = 555 / this.question_img.height;
+            // }
+            // this.question_img.node.scale = scale;
+        }
+
     }
 
     private initOption() {
@@ -189,7 +210,14 @@ export default class GameUI extends cc.Component {
             SyncDataManager.getSyncData().customSyncData.curLevel++;
             SyncDataManager.getSyncData().customSyncData.curAni = bg_ani_name;
             SyncDataManager.getSyncData().customSyncData.aniLoop = false;
-            Tools.playSpine(this.bg_ani, bg_ani_name, false, () => {
+            SoundManager.stopSoundByName(SoundConfig.soudlist["滑行"]);
+            this.scheduleOnce(() => {
+                SoundManager.playEffect(SoundConfig.soudlist["滑行"], true, true, true);
+            }, 2.5);
+            this.scheduleOnce(() => {
+                SoundManager.stopSoundByName(SoundConfig.soudlist["滑行"]);
+            }, 5);
+            Tools.playSpine(this.bg_ani, bg_ani_name, false, () => {              
                 if (NetWork.isMaster || !NetWork.isSync) {
                     T2M.dispatch(EventType.CHANGE_ANI, { name: "BG2", loop: true })
                     T2M.dispatch(EventType.NEXT_LEVEL, null);
@@ -203,13 +231,21 @@ export default class GameUI extends cc.Component {
     }
 
     private T2M_changeAni(data) {
+        SoundManager.stopAllEffect();
         Tools.playSpine(this.bg_ani, data.name, data.loop);
     }
 
     private handleGameOver() {
-        if (SyncDataManager.getSyncData().customSyncData.tureLevel.length == EditorManager.editorData.GameData.length) {
+        if (SyncDataManager.getSyncData().customSyncData.tureLevel.length /EditorManager.editorData.GameData.length >= 0.8) {
             SyncDataManager.getSyncData().customSyncData.curAni = "BG3_win";
             SyncDataManager.getSyncData().customSyncData.aniLoop = false;
+            SoundManager.stopSoundByName(SoundConfig.soudlist["滑行"]);
+            this.scheduleOnce(() => {
+                SoundManager.playEffect(SoundConfig.soudlist["滑行"], true, true, true);
+            }, 2.5);
+            this.scheduleOnce(() => {
+                SoundManager.stopSoundByName(SoundConfig.soudlist["滑行"]);
+            }, 5);
             Tools.playSpine(this.bg_ani, "BG3_win", false, () => {
                 if (NetWork.isMaster || !NetWork.isSync) {
                     T2M.dispatch(EventType.CHANGE_ANI, { name: "BG3_win2", loop: true });

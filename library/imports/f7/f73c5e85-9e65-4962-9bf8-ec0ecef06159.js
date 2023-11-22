@@ -120,6 +120,7 @@ var GameUI = /** @class */ (function (_super) {
         }
     };
     GameUI.prototype.nextLevel = function () {
+        SoundManager_1.SoundManager.stopAllEffect();
         this.gameData = EditorManager_1.EditorManager.editorData.GameData[SyncDataManager_1.SyncDataManager.getSyncData().customSyncData.curLevel];
         this.initTitle();
         this.initLevelProgress();
@@ -147,7 +148,27 @@ var GameUI = /** @class */ (function (_super) {
         this.lb_levelCount.string = EditorManager_1.EditorManager.editorData.GameData.length.toString();
     };
     GameUI.prototype.initQuestion = function () {
-        this.question_text.string = this.gameData.questionText;
+        if (this.gameData.questionPic == "") {
+            this.question_text.node.active = true;
+            this.question_img.node.active = false;
+            this.question_text.string = this.gameData.questionText;
+        }
+        else {
+            this.question_text.node.active = false;
+            this.question_img.node.active = true;
+            cc.resources.load("images/" + this.gameData.questionPic, cc.SpriteFrame, function (err, img) {
+                this.question_img.spriteFrame = img;
+            }.bind(this));
+            //this.question_img根据955*555的图片大小自适应缩放
+            // let scale = 1;
+            // if (this.question_img.width > 955) {
+            //     scale = 955 / this.question_img.width;
+            // }
+            // if (this.question_img.height * scale > 555) {
+            //     scale = 555 / this.question_img.height;
+            // }
+            // this.question_img.node.scale = scale;
+        }
     };
     GameUI.prototype.initOption = function () {
         this.option_node.destroyAllChildren();
@@ -198,6 +219,13 @@ var GameUI = /** @class */ (function (_super) {
             SyncDataManager_1.SyncDataManager.getSyncData().customSyncData.curLevel++;
             SyncDataManager_1.SyncDataManager.getSyncData().customSyncData.curAni = bg_ani_name;
             SyncDataManager_1.SyncDataManager.getSyncData().customSyncData.aniLoop = false;
+            SoundManager_1.SoundManager.stopSoundByName(SoundConfig_1.SoundConfig.soudlist["滑行"]);
+            this.scheduleOnce(function () {
+                SoundManager_1.SoundManager.playEffect(SoundConfig_1.SoundConfig.soudlist["滑行"], true, true, true);
+            }, 2.5);
+            this.scheduleOnce(function () {
+                SoundManager_1.SoundManager.stopSoundByName(SoundConfig_1.SoundConfig.soudlist["滑行"]);
+            }, 5);
             Tools_1.Tools.playSpine(this.bg_ani, bg_ani_name, false, function () {
                 if (NetWork_1.NetWork.isMaster || !NetWork_1.NetWork.isSync) {
                     T2M_1.T2M.dispatch(EventType_1.EventType.CHANGE_ANI, { name: "BG2", loop: true });
@@ -211,12 +239,20 @@ var GameUI = /** @class */ (function (_super) {
         }
     };
     GameUI.prototype.T2M_changeAni = function (data) {
+        SoundManager_1.SoundManager.stopAllEffect();
         Tools_1.Tools.playSpine(this.bg_ani, data.name, data.loop);
     };
     GameUI.prototype.handleGameOver = function () {
-        if (SyncDataManager_1.SyncDataManager.getSyncData().customSyncData.tureLevel.length == EditorManager_1.EditorManager.editorData.GameData.length) {
+        if (SyncDataManager_1.SyncDataManager.getSyncData().customSyncData.tureLevel.length / EditorManager_1.EditorManager.editorData.GameData.length >= 0.8) {
             SyncDataManager_1.SyncDataManager.getSyncData().customSyncData.curAni = "BG3_win";
             SyncDataManager_1.SyncDataManager.getSyncData().customSyncData.aniLoop = false;
+            SoundManager_1.SoundManager.stopSoundByName(SoundConfig_1.SoundConfig.soudlist["滑行"]);
+            this.scheduleOnce(function () {
+                SoundManager_1.SoundManager.playEffect(SoundConfig_1.SoundConfig.soudlist["滑行"], true, true, true);
+            }, 2.5);
+            this.scheduleOnce(function () {
+                SoundManager_1.SoundManager.stopSoundByName(SoundConfig_1.SoundConfig.soudlist["滑行"]);
+            }, 5);
             Tools_1.Tools.playSpine(this.bg_ani, "BG3_win", false, function () {
                 if (NetWork_1.NetWork.isMaster || !NetWork_1.NetWork.isSync) {
                     T2M_1.T2M.dispatch(EventType_1.EventType.CHANGE_ANI, { name: "BG3_win2", loop: true });

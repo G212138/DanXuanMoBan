@@ -34,9 +34,11 @@ var OptionKuang = /** @class */ (function (_super) {
     function OptionKuang() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.text = null;
-        _this.img = null;
+        _this.img_sp = null;
         _this.img_true = null;
         _this.img_wrong = null;
+        _this.icon = null;
+        _this.icon_img = [];
         _this.isTrueAnswer = false;
         _this.index = 0;
         return _this;
@@ -45,15 +47,21 @@ var OptionKuang = /** @class */ (function (_super) {
         this.index = index;
         this.text.string = text;
         if (img == "") {
-            this.img.node.active = false;
+            this.text.node.active = true;
+            this.img_sp.node.active = false;
         }
         else {
             this.text.node.active = false;
-            this.img.node.active = true;
+            this.img_sp.node.active = true;
+            cc.resources.load("images/" + img, cc.SpriteFrame, function (err, img) {
+                this.img_sp.spriteFrame = img;
+            }.bind(this));
         }
         this.isTrueAnswer = isTrueAnswer;
+        this.icon.spriteFrame = this.icon_img[this, index];
     };
     OptionKuang.prototype.onClickOption = function () {
+        SoundManager_1.SoundManager.playEffect(SoundConfig_1.SoundConfig.soudlist["点击音效"], false, false, false);
         UIHelp_1.UIHelp.showMask();
         ListenerManager_1.ListenerManager.dispatch(EventType_1.EventType.CLICK_OPTION, this.isTrueAnswer);
         var soundName = this.isTrueAnswer ? "正确音效" : "错误音效";
@@ -66,13 +74,19 @@ var OptionKuang = /** @class */ (function (_super) {
     ], OptionKuang.prototype, "text", void 0);
     __decorate([
         property(cc.Sprite)
-    ], OptionKuang.prototype, "img", void 0);
+    ], OptionKuang.prototype, "img_sp", void 0);
     __decorate([
         property(cc.Node)
     ], OptionKuang.prototype, "img_true", void 0);
     __decorate([
         property(cc.Node)
     ], OptionKuang.prototype, "img_wrong", void 0);
+    __decorate([
+        property(cc.Sprite)
+    ], OptionKuang.prototype, "icon", void 0);
+    __decorate([
+        property(cc.SpriteFrame)
+    ], OptionKuang.prototype, "icon_img", void 0);
     OptionKuang = __decorate([
         ccclass
     ], OptionKuang);

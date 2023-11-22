@@ -16,6 +16,7 @@ var SoundConfig = /** @class */ (function () {
         "别跑": "别跑",
         "快节奏成功音效": "快节奏成功音效",
         "长一些的失败音效": "长一些的失败音效",
+        "滑行": "滑行",
     };
     return SoundConfig;
 }());

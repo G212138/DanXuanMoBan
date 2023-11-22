@@ -25,7 +25,7 @@ export default class GamePanel extends BaseGamePanel {
         if (isRight) {
             this.answerRight(true);
         } else {
-            this.answerWrong();
+            this.answerWrong(true);
         }
     }
 

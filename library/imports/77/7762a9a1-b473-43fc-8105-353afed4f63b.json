@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "img_diannao",
+    "texture": "10e38235-c247-4275-b363-9a89fbf809d2",
+    "atlas": "",
+    "rect": [
+      15,
+      18,
+      203,
+      111
+    ],
+    "offset": [
+      -3,
+      2
+    ],
+    "originalSize": [
+      239,
+      151
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

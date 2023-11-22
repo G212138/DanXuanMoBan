@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "bg-chuang",
+    "texture": "09f70784-6c5e-486a-9870-c189e931a2b5",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      540,
+      526
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      540,
+      526
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

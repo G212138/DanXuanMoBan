@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "img_fangdaijing",
+    "texture": "30861a91-3d5a-40d8-a2fd-416653d7f334",
+    "atlas": "",
+    "rect": [
+      7,
+      10,
+      95,
+      109
+    ],
+    "offset": [
+      1.5,
+      -0.5
+    ],
+    "originalSize": [
+      106,
+      128
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}
